@@ -8,6 +8,9 @@ import userRoutes from "./routes/userRoutes.js"; // empty for now
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.json("Backend is running...");
+});
 // Middlewares
 app.use(cors());
 app.use(express.json());

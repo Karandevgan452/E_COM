@@ -1,0 +1,38 @@
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.profile-form input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-form button {
+  background: teal;
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.message {
+  color: green;
+  font-weight: 500;
+}
+
+.orders-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-list th,
+.orders-list td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
