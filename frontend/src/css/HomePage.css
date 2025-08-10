@@ -1,10 +1,10 @@
 :root {
-  --primary: #5a8dee;         /* Muted blue */
-  --secondary: #ffb6b9;       /* Soft coral */
-  --highlight: #b8f2e6;       /* Mint green */
-  --background: #f7f8fa;      /* Soft off-white */
+  --primary: #5a8dee;        
+  --secondary: #ffb6b9;       
+  --highlight: #b8f2e6;       
+  --background: #f7f8fa;      
   --white: #fff;
-  --black: #23272f;           /* Deep gray for text */
+  --black: #23272f;           
   --gray: #a0aec0;
   --radius: 18px;
   --shadow: 0 4px 24px 0 rgba(90,141,238,0.08);
