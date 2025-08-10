@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import API from "../api/axios";
 import "../css/OrderDetailsPage.css";
+import { toast } from "react-toastify";
 
 function OrderDetailsPage() {
   const { id } = useParams(); // order ID from URL
@@ -14,16 +15,13 @@ function OrderDetailsPage() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await axios.get(
-          `https://e-com-0w79.onrender.com/api/orders/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await API.get(`/orders/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrder(res.data);
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch order", err);
+        toast.error("Failed to fetch order", err);
       }
     };
 

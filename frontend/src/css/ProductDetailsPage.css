@@ -1,53 +1,187 @@
-.product-details {
+.product-details-page {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(112deg, #f0f2f7 64%, #fff 100%);
+  min-height: 90vh;
+  width: 100vw;
+  padding: 2rem 1rem;
+}
+
+.product-card {
+  display: flex;
+  gap: 2.5rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgb(40 40 70 / 8%);
+  transition: box-shadow 0.25s;
   max-width: 900px;
-  margin: auto;
-}
-
-.product-details img {
-  max-width: 400px;
   width: 100%;
+  padding: 2rem;
+}
+
+.product-card-img {
+  flex: 1 1 350px;
+  max-width: 380px;
+  background: #eef1f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 #cfd8dc40;
+  transition: transform 0.3s;
+}
+
+.product-card-img img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.product-card-img:hover img {
+  transform: scale(1.04);
+  box-shadow: 0 6px 25px 0 #f1cfcf40;
+}
+
+.product-card-info {
+  flex: 2 1 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.desc {
+  font-size: 1.02rem;
+  color: #525669;
+  margin-bottom: 1.3rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.meta {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.category {
+  background: #f6fafe;
+  color: #0070f3;
+  font-size: 0.93rem;
+  padding: 0.35em 1.1em;
   border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.price {
+  color: #28a745;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.info {
-  flex: 1;
-  min-width: 250px;
+.rating {
+  margin-bottom: 1.3rem;
+  font-size: 1.06rem;
+  color: #faad14;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.info h2 {
-  margin-bottom: 1rem;
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
-.info .price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1rem 0;
+.qty-label {
+  font-size: 1.01rem;
+  color: #777;
+  font-weight: 500;
 }
 
-.info .desc {
-  margin-bottom: 1rem;
-  color: #555;
+.qty-select {
+  font-size: 1.05rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 7px;
+  border: 1px solid #cfd8dc;
+  background: #f3f5f8;
+  margin-right: 0.7rem;
+  transition: border-color 0.2s;
+}
+.qty-select:focus {
+  border-color: #0070f3;
+  outline: none;
 }
 
-.info select {
-  margin: 0.5rem 0;
-  padding: 0.4rem;
-}
-
-.info button {
-  background-color: #007bff;
+.add-to-cart {
+  font-size: 1.08rem;
+  background: linear-gradient(112deg,#0070f3 65%, #48caff 100%);
+  color: #fff;
   border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  border-radius: 8px;
+  padding: 0.7em 1.6em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 10px rgb(0 112 243 / 10%);
   cursor: pointer;
-  border-radius: 4px;
+  transition: background 0.22s, box-shadow 0.18s, transform 0.13s;
+}
+.add-to-cart:hover, .add-to-cart:focus {
+  background: linear-gradient(112deg,#0060c3 70%, #0098ff 100%);
+  box-shadow: 0 6px 26px rgb(0 112 243 / 16%);
+  transform: translateY(-2px) scale(1.035);
 }
 
-.info button:hover {
-  background-color: #0056b3;
+@media (max-width: 950px) {
+  .product-card {
+    flex-direction: column;
+    padding: 1.2rem;
+    gap: 1.8rem;
+    max-width: 96vw;
+  }
+  .product-card-img {
+    max-width: 98vw;
+    margin-bottom: 1.5rem;
+    min-height: 200px;
+  }
+  .product-card-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-details-page {
+    padding: 0.5rem;
+    min-height: unset;
+  }
+  .product-card {
+    padding: 0.7rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgb(60 60 100 / 8%);
+  }
+  .title {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .desc {
+    font-size: 0.97rem;
+    margin-bottom: 1rem;
+  }
+  .price {
+    font-size: 1.12rem;
+  }
+  .actions {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
 }

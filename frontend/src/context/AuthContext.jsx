@@ -3,22 +3,21 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // will store user info
-  const [token, setToken] = useState(null); // for protected requests
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("user");
       const storedToken = localStorage.getItem("token");
 
-      // Check that storedUser is not "undefined", null, or empty
       if (storedUser && storedUser !== "undefined" && storedToken) {
         setUser(JSON.parse(storedUser));
         setToken(storedToken);
       }
     } catch (error) {
       console.error("Failed to parse user from localStorage", error);
-      localStorage.removeItem("user"); // Clear corrupted data
+      localStorage.removeItem("user");
     }
   }, []);
 

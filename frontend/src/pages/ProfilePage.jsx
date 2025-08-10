@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 import "../css/ProfilePage.css";
 
 function Profile() {
@@ -13,11 +13,10 @@ function Profile() {
   const [message, setMessage] = useState("");
   const [orders, setOrders] = useState([]);
 
-  // Fetch orders
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(
+        const res = await API.get(
           "https://e-com-0w79.onrender.com/api/orders/myorders",
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -35,17 +34,16 @@ function Profile() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(
-        "https://e-com-0w79.onrender.com/api/users/profile",
+      const res = await API.put(
+        "/users/profile",
         { name, email, password },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setMessage("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     } catch (err) {
-      console.error("Failed to update profile", err);
-      setMessage("Error updating profile");
+      toast.error("Error updating profile", err);
     }
   };
 
@@ -77,7 +75,6 @@ function Profile() {
         <button type="submit">Update Profile</button>
         {message && <p className="message">{message}</p>}
       </form>
-    
 
       <h3>My Orders</h3>
       <div className="orders-list">

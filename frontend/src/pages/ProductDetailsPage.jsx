@@ -1,8 +1,8 @@
-import { useParams , useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axios";
+import { toast } from "react-toastify";
 import "../css/ProductDetailsPage.css";
-
 
 function ProductDetails() {
   const { id } = useParams();
@@ -10,16 +10,15 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [qty, setQty] = useState(1);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(
-          `https://e-com-0w79.onrender.com/api/products/${id}`
-        );
+        const res = await API.get(`/products/${id}`);
         setProduct(res.data);
         setLoading(false);
       } catch (error) {
-        console.error("Failed to load product", error);
+        toast.error("Failed to load product", error);
         setLoading(false);
       }
     };
@@ -28,9 +27,7 @@ function ProductDetails() {
   }, [id]);
 
   const handleAddToCart = () => {
-
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
     const existItem = cartItems.find((item) => item._id === product._id);
 
     let updatedCart;
@@ -43,38 +40,51 @@ function ProductDetails() {
     }
 
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    alert("Added to cart!");
+    toast.success("Item added to cart");
     navigate("/cart");
   };
 
   if (loading) return <p>Loading...</p>;
-  if (!product) return <p>Product not found.</p>;
+  if (!product) return toast.error("Product not found.");
 
-  return (
-    <div className="product-details">
-      <img src={product.image} alt={product.name} />
-      <div className="info">
-        <h2>{product.name}</h2>
-        <p className="desc">{product.description}</p>
-        <p className="price">${product.price.toFixed(2)}</p>
-        <p>Status: {product.countInStock > 0 ? "In Stock" : "Out of Stock"}</p>
-
-        {product.countInStock > 0 && (
-          <>
-            <label>Quantity: </label>
+  return (  
+    <div className="product-details-page">
+      <div className="product-card">
+        <div className="product-card-img">
+          <img src={product.image} alt={product.title} />
+        </div>
+        <div className="product-card-info">
+          <h2 className="title">{product.title}</h2>
+          <p className="desc">{product.description}</p>
+          <div className="meta">
+            <span className="category">{product.category}</span>
+            <span className="price">${product.price.toFixed(2)}</span>
+          </div>
+          <div className="rating">
+            ⭐ {product.rating?.rate || 0} ({product.rating?.count || 0}{" "}
+            reviews)
+          </div>
+          <div className="actions">
+            <label htmlFor="quantity" className="qty-label">
+              Qty:
+            </label>
             <select
+              className="qty-select"
+              id="quantity"
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
             >
-              {[...Array(product.countInStock).keys()].map((x) => (
+              {[...Array(10).keys()].map((x) => (
                 <option key={x + 1} value={x + 1}>
                   {x + 1}
                 </option>
               ))}
             </select>
-            <button onClick={handleAddToCart}>Add to Cart</button>
-          </>
-        )}
+            <button className="add-to-cart" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

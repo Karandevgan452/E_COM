@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axios";
+import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import "../css/PlaceOrderPage.css";
 
@@ -30,8 +31,8 @@ function PlaceOrderPage() {
   const handlePlaceOrder = async () => {
     setPlacingOrder(true);
     try {
-      const res = await axios.post(
-        "https://e-com-0w79.onrender.com/api/orders",
+      const res = await API.post(
+        "/orders",
         {
           orderItems: cartItems.map((item) => ({
             name: item.name,
@@ -54,11 +55,14 @@ function PlaceOrderPage() {
         }
       );
 
-      localStorage.removeItem("cart"); // Clear cart after placing order
-      navigate(`/order/${res.data._id}`); // Redirect to confirmation page
+      localStorage.removeItem("cart");
+      toast.success("Order placed successfully!");
+      navigate(`/order/${res.data._id}`);
     } catch (err) {
-      console.error("Failed to place order", err);
-      alert("Something went wrong placing the order.");
+      toast.error(
+        "Failed to place order.   Please check if you are logged out "
+      );
+      toast.error("Something went wrong placing the order.", err);
     } finally {
       setPlacingOrder(false);
     }

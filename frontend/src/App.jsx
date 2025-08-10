@@ -1,17 +1,21 @@
-// src/App.jsx
-import { BrowserRouter ,  Routes, Route } from "react-router-dom";
-// Pages
+import { ToastContainer } from "react-toastify";
+import { Routes, Route } from "react-router-dom"; 
+// Public pages
 import HomePage from "./pages/HomePage";
+import ShopPage from "./pages/ShopPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage.jsx";
+// Protected pages
 import ProfilePage from "./pages/ProfilePage.jsx";
 import CheckoutPage from "./pages/CheckoutPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 import OrderDetailsPage from "./pages/OrderDetailsPage.jsx";
 import MyOrdersPage from "./pages/MyOrdersPage.jsx";
 import PrivateRoute from "./components/ProtectedRoute.jsx";
+
+// Components
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 function App() {
@@ -21,6 +25,7 @@ function App() {
       <main style={{ padding: "1rem" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -30,7 +35,7 @@ function App() {
           <Route path="/order/:id" element={<OrderDetailsPage />} />
           <Route path="/myorders" element={<MyOrdersPage />} />
 
-          {/* protected routes */}
+      
           <Route
             path="/profile"
             element={
@@ -39,10 +44,20 @@ function App() {
               </PrivateRoute>
             }
           />
-         
         </Routes>
       </main>
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

@@ -34,50 +34,67 @@ function Cart() {
     0
   );
 
-  return (
-    <div className="cart-container">
-      <h2>Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>
-          Your cart is empty. <Link to="/">Go Shopping</Link>
-        </p>
-      ) : (
-        <>
-          <div className="cart-items">
-            {cartItems.map((item) => (
-              <div className="cart-item" key={item._id}>
-                <img src={item.image} alt={item.name} />
-                <div className="cart-details">
-                  <h4>{item.name}</h4>
-                  <p>${item.price.toFixed(2)}</p>
-                  <select
-                    value={item.qty}
-                    onChange={(e) =>
-                      changeQuantity(item._id, Number(e.target.value))
-                    }
-                  >
-                    {[...Array(item.countInStock).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </select>
-                  <button onClick={() => removeItem(item._id)}>Remove</button>
-                </div>
-              </div>
-            ))}
-          </div>
+ return (
+   <div className="cart-page">
+     <h2 className="cart-title">Your Cart</h2>
 
-          <div className="cart-summary">
-            <h3>Subtotal: ${totalPrice.toFixed(2)}</h3>
-            <Link to="/checkout">
-              <button className="checkout-btn">Proceed to Checkout</button>
-            </Link>
-          </div>
-        </>
-      )}
-    </div>
-  );
+     {cartItems.length === 0 ? (
+       <div className="cart-empty">
+         <p>
+           Your cart is empty. <Link to="/">Go Shopping</Link>
+         </p>
+       </div>
+     ) : (
+       <>
+         <div className="cart-list">
+           {cartItems.map((item) => (
+             <div className="cart-card card-hover" key={item._id}>
+               <div className="cart-card-img">
+                 <img src={item.image} alt={item.title || item.name} />
+               </div>
+               <div className="cart-card-info">
+                 <h4 className="cart-item-title">{item.title || item.name}</h4>
+                 <div className="cart-item-price">${item.price.toFixed(2)}</div>
+
+                 <div className="cart-actions">
+                   <label className="cart-qty-label">Qty:</label>
+                   <select
+                     className="cart-qty-select"
+                     value={item.qty}
+                     onChange={(e) =>
+                       changeQuantity(item._id, Number(e.target.value))
+                     }
+                   >
+                     {[...Array(item.countInStock || 10).keys()].map((x) => (
+                       <option key={x + 1} value={x + 1}>
+                         {x + 1}
+                       </option>
+                     ))}
+                   </select>
+                   <button
+                     className="cart-remove-btn"
+                     onClick={() => removeItem(item._id)}
+                   >
+                     Remove
+                   </button>
+                 </div>
+               </div>
+             </div>
+           ))}
+         </div>
+         <div className="cart-summary">
+           <h3 className="cart-summary-title">
+             Subtotal: <span>${totalPrice.toFixed(2)}</span>
+           </h3>
+           <Link to="/checkout">
+             <button className="checkout-btn">Proceed to Checkout</button>
+           </Link>
+         </div>
+       </>
+     )}
+   </div>
+ );
+
 }
 
 export default Cart;

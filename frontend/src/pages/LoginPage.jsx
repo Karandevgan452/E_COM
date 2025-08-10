@@ -1,13 +1,13 @@
 import { useState } from "react";
-import axios from "axios";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import Register from "./RegisterPage";
-import "../css/LoginPage.css";
+import API from "../api/axios";
+import "../css/AuthPages.css";
 
 function Login() {
-  const { login } = useAuth(); // from AuthContext
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +15,10 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://e-com-0w79.onrender.com/api/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const res = await API.post("/users/login", {
+        email,
+        password,
+      });
       const userData = {
         _id: res.data._id,
         name: res.data.name,
@@ -29,15 +26,11 @@ function Login() {
         isAdmin: res.data.isAdmin,
       };
       const token = res.data.token;
-
-      console.log("Login response:", res.data);
-      login(userData, token); // save to context + localStorage
-      alert("Login successful");
-      console.log("Navigating to /profile...");
-      navigate("/profile"); // redirect to protected route
+      login(userData, token);
+      toast.success("Logged in successfully!");
+      navigate("/profile");
     } catch (error) {
-      alert("Invalid email or password");
-      console.error(error);
+      toast.error("Authentication failed. Please check your credentials.");
     }
   };
 
@@ -62,10 +55,11 @@ function Login() {
         />
 
         <button type="submit">Login</button>
+        <p>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
       </form>
-      <p>
-        Don't have an account? <Link to="/register">Register here</Link>
-      </p>
+      <br />
     </div>
   );
 }

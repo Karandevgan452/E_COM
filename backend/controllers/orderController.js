@@ -1,9 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/Order.js";
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
 export const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -35,9 +32,6 @@ export const addOrderItems = asyncHandler(async (req, res) => {
   res.status(201).json(createdOrder);
 });
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
 export const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
@@ -52,25 +46,16 @@ export const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get logged in user's orders
-// @route   GET /api/orders/myorders
-// @access  Private
 export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
 });
 
-// @desc    Get all orders (admin)
-// @route   GET /api/orders
-// @access  Private/Admin
 export const getAllOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);
 });
 
-// @desc    Update order to paid
-// @route   PUT /api/orders/:id/pay
-// @access  Private
 export const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
@@ -100,9 +85,6 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
 });
 
 
-// @desc    Update order to delivered (admin)
-// @route   PUT /api/orders/:id/deliver
-// @access  Private/Admin
 export const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 

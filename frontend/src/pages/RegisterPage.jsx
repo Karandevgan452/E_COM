@@ -1,10 +1,12 @@
 import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import "../css/RegisterPage.css";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+import API from "../api/axios";
+import "../css/AuthPages.css";
 
 function Register() {
+  const { login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,21 +15,25 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://e-com-0w79.onrender.com/api/users/register",
-        {
-          name,
-          email,
-          password,
-        }
-      );
-      console.log(res.data);
-      localStorage.setItem("userInfo", JSON.stringify(res.data));
-      alert("Registration successful");
+      const res = await API.post("/users/register", {
+        name,
+        email,
+        password,
+      });
+      const userData = {
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+        isAdmin: res.data.isAdmin,
+      };
+      const token = res.data.token;
+      login(userData, token);
+      toast.success("Registration successful! You are now logged in.");
       navigate("/profile");
     } catch (error) {
-      alert("User already exists or registration failed.");
-      console.error(error);
+      toast.error(
+        "Registration failed. User may already exist or something went wrong."
+      );
     }
   };
 
@@ -61,6 +67,10 @@ function Register() {
         />
 
         <button type="submit">Register</button>
+
+        <p>
+          Already have an account? <Link to="/login">Login here</Link>
+        </p>
       </form>
     </div>
   );

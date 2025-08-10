@@ -5,10 +5,10 @@ function ProductCard({ product }) {
   return (
     <div className="product-card">
       <Link to={`/product/${product._id}`}>
-        <img src={product.image} alt={product.name} className="product-image" />
+        <img src={product.image} alt={product.title} className="product-image" />
       </Link>
       <div className="product-info">
-        <h3>{product.name}</h3>
+        <h3>{product.title}</h3>
         <p>${product.price.toFixed(2)}</p>
         <Link to={`/product/${product._id}`} className="details-btn">
           View Details

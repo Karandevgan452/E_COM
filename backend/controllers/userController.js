@@ -2,8 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
 
-// @desc    Register a new user
-// @route   POST /api/users/register
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password , isAdmin } = req.body;
 
@@ -29,8 +27,6 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Auth user & get token
-// @route   POST /api/users/login
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -51,7 +47,6 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-//userController.js
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -68,14 +63,11 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
  export const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    // Only update fields that are sent
+  
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
 
