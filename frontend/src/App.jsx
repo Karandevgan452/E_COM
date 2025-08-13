@@ -7,6 +7,8 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 // Protected pages
 import ProfilePage from "./pages/ProfilePage.jsx";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -34,7 +36,8 @@ function App() {
           <Route path="/placeorder" element={<PlaceOrderPage />} />
           <Route path="/order/:id" element={<OrderDetailsPage />} />
           <Route path="/myorders" element={<MyOrdersPage />} />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />  
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
       
           <Route
             path="/profile"

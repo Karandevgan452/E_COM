@@ -16,12 +16,9 @@ function Profile() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await API.get(
-          "https://e-com-0w79.onrender.com/api/orders/myorders",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await API.get("/orders/myorders", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrders(res.data);
       } catch (err) {
         console.error("Failed to load orders", err);

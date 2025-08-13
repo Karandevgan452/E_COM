@@ -18,6 +18,7 @@ function MyOrdersPage() {
         });
         setOrders(res.data);
       } catch (err) {
+        console.log(err);
         toast.error("Failed to fetch your orders", err);
       }
     };

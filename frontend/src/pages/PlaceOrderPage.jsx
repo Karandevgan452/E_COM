@@ -29,17 +29,34 @@ function PlaceOrderPage() {
   const totalPrice = +(itemsPrice + shippingPrice + taxPrice).toFixed(2);
 
   const handlePlaceOrder = async () => {
+    
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+
+    if (!shippingAddress.fullName || !shippingAddress.address) {
+      toast.error("Please provide shipping address");
+      return;
+    }
+
+    if (!token) {
+      toast.error("Please login to place order");
+      return;
+    }
+
     setPlacingOrder(true);
     try {
       const res = await API.post(
         "/orders",
         {
           orderItems: cartItems.map((item) => ({
-            name: item.name,
-            qty: item.qty,
-            image: item.image,
-            price: item.price,
-            product: item._id,
+            name:
+              item.name || item.title || item.productName || "Unknown Product",
+            qty: item.qty || item.quantity || 1,
+            image: item.image || item.imageUrl || "",
+            price: item.price || 0,
+            product: item._id || item.id || item.productId,
           })),
           shippingAddress,
           paymentMethod: "Cash on Delivery",
@@ -59,10 +76,11 @@ function PlaceOrderPage() {
       toast.success("Order placed successfully!");
       navigate(`/order/${res.data._id}`);
     } catch (err) {
-      toast.error(
-        "Failed to place order.   Please check if you are logged out "
-      );
-      toast.error("Something went wrong placing the order.", err);
+      console.log(err);
+      const errorMessage =
+        err.response?.data?.message ||
+        "Failed to place order. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setPlacingOrder(false);
     }
@@ -75,9 +93,10 @@ function PlaceOrderPage() {
       <div className="section">
         <h3>Shipping</h3>
         <p>
-          {shippingAddress.fullName}, {shippingAddress.address},{" "}
-          {shippingAddress.city}, {shippingAddress.postalCode},{" "}
-          {shippingAddress.country}
+          {shippingAddress.fullName || "N/A"},{" "}
+          {shippingAddress.address || "N/A"}, {shippingAddress.city || "N/A"},{" "}
+          {shippingAddress.postalCode || "N/A"},{" "}
+          {shippingAddress.country || "N/A"}
         </p>
       </div>
 
