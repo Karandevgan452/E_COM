@@ -1,9 +1,13 @@
 // app.js
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
-import productRoutes from "./routes/productRoutes.js"; // empty for now
-import userRoutes from "./routes/userRoutes.js"; // empty for now
- import orderRoutes from "./routes/orderRoutes.js"; // empty for now
+
+
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+ import orderRoutes from "./routes/orderRoutes.js";
  import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 const app = express();
@@ -11,6 +15,8 @@ const app = express();
 app.get("/", (req, res) => {
   res.json("Backend is running...");
 });
+
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
